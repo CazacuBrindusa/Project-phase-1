@@ -261,7 +261,153 @@ istream& operator >>(istream& in, Location& p)
     return in;
 }
 
-int main()
+
+class Event : public Location
 {
-    return 0;
+    int event_id;
+    string name;
+    string data;
+    string timp;
+    string category;
+
+public:
+
+    int getevent_id() { return this->event_id; }
+    string getname() { return this->name; }
+    string getdata() { return this->data; }
+    string gettimp() { return this->timp; }
+    string getcategory() { return this->category; }
+
+    void setevet_id(int event_id)
+    {
+        if (event_id != NULL)
+            this->event_id = event_id;
+    }
+    void setname(string name)
+    {
+        if (name != "\n")
+            this->name = name;
+    }
+    void setdata(string data)
+    {
+        if (data != "\n")
+            this->data = data;
+    }
+    void settimp(string timp)
+    {
+        if (timp != "\n")
+            this->timp = timp;
+    }
+    void setcategory(string category)
+    {
+        if (category != "\n")
+            this->category = category;
+    }
+
+    Event();
+    Event(int, string, string, string, string);
+    Event(const Event& e);
+    Event(int);
+    Event(int, string);
+    Event& operator = (const Event& e);
+    friend ostream& operator << (ostream& out, const Event& e);
+    friend istream& operator >> (istream& in, Event& e);
+    bool operator ==(const Event& e)
+    {
+        Event aux(*this);
+        return Location:: operator == (e) &&
+            aux.event_id == e.event_id &&
+            aux.name == e.name &&
+            aux.data == e.data &&
+            aux.timp == e.timp &&
+            aux.category == e.category;
+    }
+
+    ~Event()
+    {
+        Location::~Location();
+    };
+};
+Event::Event() : Location()
+{
+    this->event_id = 0;
+    this->name = "unknown";
+    this->data = "unknown";
+    this->timp = '0';
+    this->category = '0';
+}
+Event::Event(int event_id, string name, string data, string timp, string category) : Location(venue, max_nr_seats, nr_rows, zones, seats)
+{
+    this->event_id = event_id;
+    this->name = name;
+    this->data = data;
+    this->timp = timp;
+    this->category = category;
+}
+Event::Event(int event_id) : Location()
+{
+    this->event_id = event_id;
+    this->name = "unknown";
+    this->data = "unknown";
+    this->timp = '0';
+    this->category = '0';
+}
+Event::Event(int event_id, string name) : Location()
+{
+    this->event_id = event_id;
+    this->name = name;
+    this->data = "unknown";
+    this->timp = '0';
+    this->category = '0';
+}
+Event::Event(const Event& e) : Location(e)
+{
+    this->event_id = e.event_id;
+    this->name = e.name;
+    this->data = e.data;
+    this->timp = e.timp;
+    this->category = e.category;
+}
+Event& Event::operator =(const Event& e)
+{
+    if (this != &e)
+    {
+        Location::operator =(e);
+        this->event_id = e.event_id;
+        this->name = e.name;
+        this->data = e.data;
+        this->timp = e.timp;
+        this->category = e.category;
+    }
+    return *this;
+}
+ostream& operator << (ostream& out, const Event& e)
+{
+    out << (Location&)e;
+    out << "The event id is: " << e.event_id << endl;
+    out << "The name of the event is: " << e.name << endl;
+    out << "The date of the event is: " << e.data << endl;
+    out << "The time of the event is: " << e.timp << endl;
+    out << "The type of the event is: " << e.category << endl;
+    return out;
+}
+istream& operator >> (istream& in, Event& e)
+{
+    in >> (Location&)e;
+    cout << "The event id is: ";
+    in >> e.event_id;
+    cout << endl;
+    cout << "The name of the event is: ";
+    in >> e.name;
+    cout << endl;
+    cout << "The date of the event is: ";
+    in >> e.data;
+    cout << endl;
+    cout << "The time of the event is: ";
+    in >> e.timp;
+    cout << endl;
+    cout << "The type of the event is: ";
+    in >> e.category;
+    cout << endl;
+    return in;
 }
