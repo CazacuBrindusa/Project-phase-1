@@ -411,3 +411,224 @@ istream& operator >> (istream& in, Event& e)
     cout << endl;
     return in;
 }
+
+
+class Ticket
+{
+    const int ticket_id;
+    static int idcontor;
+    int seat_nr;
+    double price;
+    char status; //s=sold, a=available, r=reserved
+
+public:
+
+    const int getticket_id() { return this->ticket_id; }
+    static int getidcontor() { return idcontor; }
+    int getseat_nr() { return this->seat_nr; }
+    double getprice() { return this->price; }
+    char getstatus() { return this->status; }
+
+    void setseat_nr(int seat_nr)
+    {
+        if (seat_nr != NULL)
+            this->seat_nr = seat_nr;
+    }
+    void setprice(double price)
+    {
+        if (price != NULL)
+            this->price = price;
+    }
+    void setstatus(char status)
+    {
+        if (status != '\n')
+            this->status = status;
+    }
+
+    Ticket();
+    Ticket(int ticket_id, int seat_nr, double price, char status);
+    Ticket(const Ticket& t);
+    Ticket(int seat_nr);
+    Ticket(int seat_nr, double price);
+    Ticket& operator =(const Ticket& t);
+    friend ostream& operator << (ostream& out, const Ticket& t);
+    friend istream& operator >> (istream& in, Ticket& t);
+    bool operator <(const Ticket& t)
+    {
+        return this->price < t.price;
+    }
+    bool operator <(int p)
+    {
+        return this->price < p;
+    }
+    friend bool operator <(int p, const Ticket& t)
+    {
+        return p < t.price;
+    }
+    bool operator <=(const Ticket& t)
+    {
+        return this->price <= t.price;
+    }
+    bool operator <=(int p)
+    {
+        return this->price <= p;
+    }
+    friend bool operator <=(int p, const Ticket& t)
+    {
+        return p <= t.price;
+    }
+    bool operator >(const Ticket& t)
+    {
+        return this->price > t.price;
+    }
+    bool operator >(int p)
+    {
+        return this->price > p;
+    }
+    friend bool operator >(int p, const Ticket& t)
+    {
+        return p > t.price;
+    }
+    bool operator >=(const Ticket& t)
+    {
+        return this->price >= t.price;
+    }
+    bool operator >=(int p)
+    {
+        return this->price >= p;
+    }
+    friend bool operator >=(int p, const Ticket& t)
+    {
+        return p > t.price;
+    }
+    Ticket& operator ++()
+    {
+        this->price++;
+        return *this;
+    }
+    Ticket operator ++(int)
+    {
+        Ticket aux(*this);
+        this->price++;
+        return aux;
+    }
+    Ticket& operator --()
+    {
+        this->price--;
+        return *this;
+    }
+    Ticket operator --(int)
+    {
+        Ticket aux(*this);
+        this->price--;
+        return aux;
+    }
+    Ticket operator +(const Ticket& t)
+    {
+        Ticket aux(*this);
+        aux.price = t.price + aux.price;
+        return aux;
+    }
+    Ticket operator +(double p)
+    {
+        Ticket aux(*this);
+        aux.price = aux.price + p;
+        return aux;
+    }
+    friend Ticket operator +(double p, const Ticket& t)
+    {
+        Ticket aux(t);
+        aux.price = aux.price + p;
+        return aux;
+    }
+    Ticket operator -(const Ticket& t)
+    {
+        Ticket aux(*this);
+        aux.price = aux.price - t.price;
+        return aux;
+    }
+    Ticket operator -(double p)
+    {
+        Ticket aux(*this);
+        aux.price = aux.price - p;
+        return aux;
+    }
+    friend Ticket operator -(double p, const Ticket& t)
+    {
+        Ticket aux(t);
+        aux.price = p - aux.price;
+        return aux;
+    }
+    bool operator ==(const Ticket& t)
+    {
+        Ticket aux(*this);
+        return aux.seat_nr == t.seat_nr &&
+            aux.price == t.price &&
+            aux.status == t.status;
+    }
+    ~Ticket()
+    {
+
+    }
+};
+int Ticket::idcontor = 1000;
+Ticket::Ticket() : ticket_id(idcontor++)
+{
+    this->seat_nr = 0;
+    this->price = 0;
+    this->status = 'u';
+}
+Ticket::Ticket(int ticket_id, int seat_nr, double price, char status) :ticket_id(idcontor++)
+{
+    this->seat_nr = seat_nr;
+    this->price = price;
+    this->status = status;
+}
+Ticket::Ticket(int seat_nr) : ticket_id(idcontor++)
+{
+    this->seat_nr = seat_nr;
+    this->price = 0;
+    this->status = 'u';
+}
+Ticket::Ticket(int seat_nr, double price) : ticket_id(idcontor++)
+{
+    this->seat_nr = seat_nr;
+    this->price = price;
+    this->status = 'u';
+}
+Ticket::Ticket(const Ticket& t) :ticket_id(idcontor++)
+{
+    this->seat_nr = t.seat_nr;
+    this->price = t.price;
+    this->status = t.status;
+}
+Ticket& Ticket::operator =(const Ticket& t)
+{
+    if (this != &t)
+    {
+        this->seat_nr = t.seat_nr;
+        this->price = t.price;
+        this->status = t.status;
+    }
+    return *this;
+}
+ostream& operator << (ostream& out, const Ticket& t)
+{
+    out << "The seat number is: " << t.seat_nr << endl;
+    out << "The price is: " << t.price << endl;
+    out << "The status is (s=sold, a=available, r=reserved): " << t.status << endl;
+    return out;
+}
+istream& operator >> (istream& in, Ticket& t)
+{
+    cout << "The seat number is: ";
+    in >> t.seat_nr;
+    cout << endl;
+    cout << "The price is: ";
+    in >> t.price;
+    cout << endl;
+    cout << "The status is (s=sold, a=available, r=reserved): ";
+    in >> t.status;
+    cout << endl;
+    return in;
+}
