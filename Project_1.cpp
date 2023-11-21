@@ -632,3 +632,251 @@ istream& operator >> (istream& in, Ticket& t)
     cout << endl;
     return in;
 }
+
+class Customer
+{
+    int customer_id;
+    string name;
+    string phone;
+    string email;
+    int age;
+
+public:
+
+    int getcustomer_id() { return this->customer_id; }
+    string getname() { return this->name; }
+    string getphone() { return this->phone; }
+    string getemail() { return this->email; }
+    int getage() { return this->age; }
+
+    void setcustomer_id(int customer_id)
+    {
+        if (customer_id != NULL)
+            this->customer_id = customer_id;
+    }
+    void setname(string name)
+    {
+        if (name != "\n")
+            this->name = name;
+    }
+    void setphone(string phone)
+    {
+        if (phone != "\n")
+            this->phone = phone;
+    }
+    void setemail(string email)
+    {
+        if (email != "\n")
+            this->email = email;
+    }
+    void setage(int age)
+    {
+        if (age != NULL)
+            this->age = age;
+    }
+
+    Customer();
+    Customer(int customer_id, string name, string phone, string email, int age);
+    Customer(const Customer& c);
+    Customer(int customer_id);
+    Customer(int customer_id, string name);
+    Customer& operator =(const Customer& c);
+    friend ostream& operator << (ostream& out, const Customer& c);
+    friend istream& operator >> (istream& in, Customer& c);
+    bool operator ==(const Customer& c)
+    {
+        Customer aux(*this);
+        return aux.customer_id == c.customer_id &&
+            aux.name == c.name &&
+            aux.phone == c.phone &&
+            aux.email == c.email &&
+            aux.age == c.age;
+    }
+    bool operator <(const Customer& c)
+    {
+        return this->age < c.age;
+    }
+    bool operator <(int a)
+    {
+        return this->age < a;
+    }
+    friend bool operator <(int a, const Customer& c)
+    {
+        return a < c.age;
+    }
+    bool operator <=(const Customer& c)
+    {
+        return this->age <= c.age;
+    }
+    bool operator <=(int a)
+    {
+        return this->age <= a;
+    }
+    friend bool operator <=(int a, const Customer& c)
+    {
+        return a <= c.age;
+    }
+    bool operator >(const Customer& c)
+    {
+        return this->age > c.age;
+    }
+    bool operator >(int a)
+    {
+        return this->age > a;
+    }
+    friend bool operator >(int a, const Customer& c)
+    {
+        return a > c.age;
+    }
+    bool operator >=(const Customer& c)
+    {
+        return this->age >= c.age;
+    }
+    bool operator >=(int a)
+    {
+        return this->age >= a;
+    }
+    friend bool operator >=(int a, const Customer& c)
+    {
+        return a >= c.age;
+    }
+    Customer& operator ++()
+    {
+        this->age++;
+        return *this;
+    }
+    Customer operator ++(int)
+    {
+        Customer aux(*this);
+        this->age++;
+        return aux;
+    }
+    Customer& operator --()
+    {
+        this->age--;
+        return *this;
+    }
+    Customer operator --(int)
+    {
+        Customer aux(*this);
+        this->age--;
+        return aux;
+    }
+    Customer operator +(const Customer& c)
+    {
+        Customer aux(*this);
+        aux.age = aux.age + c.age;
+        return aux;
+    }
+    Customer operator +(int a)
+    {
+        Customer aux(*this);
+        aux.age = aux.age + a;
+        return aux;
+    }
+    friend Customer operator +(int a, const Customer& c)
+    {
+        Customer aux(c);
+        aux.age = aux.age + a;
+        return aux;
+    }
+    Customer operator -(const Customer& c)
+    {
+        Customer aux(*this);
+        aux.age = aux.age - c.age;
+        return aux;
+    }
+    Customer operator -(int a)
+    {
+        Customer aux(*this);
+        aux.age = aux.age - a;
+        return aux;
+    }
+    friend Customer operator -(int a, const Customer& c)
+    {
+        Customer aux(c);
+        aux.age = a - aux.age;
+        return aux;
+    }
+    ~Customer() {}
+};
+Customer::Customer()
+{
+    this->customer_id = 0;
+    this->name = "unknown";
+    this->phone = "0000000000";
+    this->email = "unknown";
+    this->age = 0;
+}
+Customer::Customer(int customer_id, string name, string phone, string email, int age)
+{
+    this->customer_id = customer_id;
+    this->name = name;
+    this->phone = phone;
+    this->email = email;
+    this->age = age;
+}
+Customer::Customer(int customer_id)
+{
+    this->customer_id = customer_id;
+    this->name = "unknown";
+    this->phone = "0000000000";
+    this->email = "unknown";
+    this->age = 0;
+}
+Customer::Customer(int customer_id, string name)
+{
+    this->customer_id = customer_id;
+    this->name = name;
+    this->phone = "0000000000";
+    this->email = "unknown";
+    this->age = 0;
+}
+Customer::Customer(const Customer& c)
+{
+    this->customer_id = c.customer_id;
+    this->name = c.name;
+    this->phone = c.phone;
+    this->email = c.email;
+    this->age = c.age;
+}
+Customer& Customer::operator =(const Customer& c)
+{
+    if (this != &c)
+    {
+        this->customer_id = c.customer_id;
+        this->name = c.name;
+        this->phone = c.phone;
+        this->email = c.email;
+        this->age = c.age;
+    }
+    return *this;
+}
+ostream& operator << (ostream& out, const Customer& c)
+{
+    out << "The client's id is: " << c.customer_id << endl;
+    out << "The client's name is: " << c.name << endl;
+    out << "The client's phone is: " << c.phone << endl;
+    out << "The client's email is: " << c.email << endl;
+    out << "The client's age is: " << c.age << endl;
+    return out;
+}
+istream& operator >> (istream& in, Customer& c)
+{
+    cout << "The client's id is: ";
+    in >> c.customer_id;
+    cout << endl;
+    cout << "The client's name is: ";
+    in >> c.name;
+    cout << endl;
+    cout << "The client's phone is: ";
+    in >> c.phone;
+    cout << endl;
+    cout << "The client's email is: ";
+    in >> c.email;
+    cout << endl;
+    cout << "The client's age is: ";
+    in >> c.age;
+    cout << endl;
+    return in;
+}
