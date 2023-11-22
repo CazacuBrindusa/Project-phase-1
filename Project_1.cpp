@@ -412,7 +412,6 @@ istream& operator >> (istream& in, Event& e)
     return in;
 }
 
-
 class Ticket
 {
     const int ticket_id;
@@ -632,6 +631,7 @@ istream& operator >> (istream& in, Ticket& t)
     cout << endl;
     return in;
 }
+
 
 class Customer
 {
@@ -879,4 +879,630 @@ istream& operator >> (istream& in, Customer& c)
     in >> c.age;
     cout << endl;
     return in;
+}
+
+class Payment
+{
+    char* tip_plata; //o=online; f=fizic
+    int payment_id;
+    float amount;
+    bool metoda; //0=card, 1=cash
+    vector <Ticket> lista;
+
+public:
+
+    char* gettip_plata() { return this->tip_plata; }
+    int getpayment_id() { return this->payment_id; }
+    float getamount() const { return this->amount; }
+    bool getmetoda() { return this->metoda; }
+    vector <Ticket> getlista() { return this->lista; }
+
+    void settip_plata(char* tip_plata)
+    {
+        if (this->tip_plata != NULL)
+            delete[] this->tip_plata;
+        this->tip_plata = new char[strlen(tip_plata) + 1];
+        strcpy(this->tip_plata, tip_plata);
+    }
+    void setpayment_id(int payment_id) { this->payment_id = payment_id; }
+    void setamount(float amount) { this->amount = amount; }
+    void setmetoda(bool metoda) { this->metoda = metoda; }
+    void setlista(vector <Ticket> lista) { this->lista = lista; }
+
+    Payment();
+    Payment(char* tip_plata, int payment_id, float amount, bool metoda);
+    Payment(const Payment& p);
+    Payment(int payment_id);
+    Payment(int payment_id, float amount);
+    Payment& operator =(const Payment& p);
+    friend ostream& operator << (ostream& out, const Payment& p);
+    friend istream& operator >> (istream& in, Payment& p);
+    bool operator <(const Payment& p)
+    {
+        return this->amount < p.amount;
+    }
+    bool operator <(float a)
+    {
+        return this->amount < a;
+    }
+    friend bool operator <(float a, const Payment& p)
+    {
+        return a < p.amount;
+    }
+    bool operator <=(const Payment& p)
+    {
+        return this->amount <= p.amount;
+    }
+    bool operator <=(float a)
+    {
+        return this->amount <= a;
+    }
+    friend bool operator <=(float a, const Payment& p)
+    {
+        return a <= p.amount;
+    }
+    bool operator >(const Payment& p)
+    {
+        return this->amount > p.amount;
+    }
+    bool operator >(float a)
+    {
+        return this->amount > a;
+    }
+    friend bool operator >(float a, const Payment& p)
+    {
+        return a > p.amount;
+    }
+    bool operator >=(const Payment& p)
+    {
+        return this->amount >= p.amount;
+    }
+    bool operator >=(float a)
+    {
+        return this->amount >= a;
+    }
+    friend bool operator >=(float a, const Payment& p)
+    {
+        return a >= p.amount;
+    }
+    Payment& operator ++()
+    {
+        this->amount++;
+        return *this;
+    }
+    Payment operator ++(int)
+    {
+        Payment aux(*this);
+        this->amount++;
+        return aux;
+    }
+    Payment operator +(const Payment& a)
+    {
+        Payment aux(*this);
+        aux.amount = aux.amount + a.amount;
+        return aux;
+    }
+    Payment operator +(float p)
+    {
+        Payment aux(*this);
+        aux.amount = aux.amount + p;
+        return aux;
+    }
+    friend Payment operator +(float p, const Payment& a)
+    {
+        Payment aux(a);
+        aux.amount = aux.amount + p;
+        return aux;
+    }
+    Payment& operator --()
+    {
+        this->amount--;
+        return *this;
+    }
+    Payment operator --(int)
+    {
+        Payment aux(*this);
+        this->amount--;
+        return aux;
+    }
+    Payment operator -(const Payment& a)
+    {
+        Payment aux(*this);
+        aux.amount = aux.amount - a.amount;
+        return aux;
+    }
+    Payment operator -(float p)
+    {
+        Payment aux(*this);
+        aux.amount = aux.amount - p;
+        return aux;
+    }
+    friend Payment operator -(float p, const Payment& a)
+    {
+        Payment aux(a);
+        aux.amount = p - aux.amount;
+        return aux;
+    }
+    bool operator ==(const Payment& p)
+    {
+        bool ok = false;
+        Payment aux(*this);
+        if (aux.tip_plata == p.tip_plata)
+            if (aux.payment_id == p.payment_id)
+                if (aux.amount == p.amount)
+                    if (aux.metoda == p.metoda)
+                        ok = true;
+        return ok;
+    }
+    Payment operator +(const Ticket& t)
+    {
+        lista.push_back(t);
+        return *this;
+    }
+    friend Payment operator + (const Ticket& t, Payment& p)
+    {
+        Ticket aux(t);
+        p.lista.push_back(aux);
+        return p;
+    }
+    ~Payment()
+    {
+        if (this->tip_plata != NULL)
+        {
+            delete[] this->tip_plata;
+            this->tip_plata = NULL;
+        }
+    };
+};
+Payment::Payment()
+{
+    this->tip_plata = new char[2];
+    strcpy(this->tip_plata, "u");
+    this->payment_id = 0;
+    this->amount = 0;
+    this->metoda = 0;
+}
+Payment::Payment(char* tip_plata, int payment_id, float amount, bool metoda)
+{
+    this->tip_plata = new char[strlen(tip_plata) + 1];
+    strcpy(this->tip_plata, tip_plata);
+    this->payment_id = payment_id;
+    this->amount = amount;
+    this->metoda = metoda;
+}
+Payment::Payment(int payment_id)
+{
+    this->tip_plata = new char[2];
+    strcpy(this->tip_plata, "u");
+    this->payment_id = payment_id;
+    this->amount = 0;
+    this->metoda = 0;
+}
+Payment::Payment(int payment_id, float amount)
+{
+    this->tip_plata = new char[2];
+    strcpy(this->tip_plata, "u");
+    this->payment_id = payment_id;
+    this->amount = amount;
+    this->metoda = 0;
+}
+Payment::Payment(const Payment& p)
+{
+    this->payment_id = p.payment_id;
+    this->tip_plata = new char[strlen(p.tip_plata) + 1];
+    strcpy(this->tip_plata, p.tip_plata);
+    this->payment_id = p.payment_id;
+    this->amount = p.amount;
+    this->metoda = p.metoda;
+}
+Payment& Payment::operator =(const Payment& p)
+{
+    if (this != &p)
+    {
+        if (this->tip_plata != NULL)
+        {
+            delete[] this->tip_plata;
+            this->tip_plata = NULL;
+        }
+        this->tip_plata = new char[strlen(p.tip_plata) + 1];
+        strcpy(this->tip_plata, p.tip_plata);
+        this->payment_id = p.payment_id;
+        this->amount = p.amount;
+        this->metoda = p.metoda;
+    }
+    return *this;
+}
+ostream& operator << (ostream& out, const Payment& p)
+{
+    out << "The type of payment is (o pentru online, f pentru fizic): " << p.tip_plata << endl;
+    out << "The payment's id is: " << p.payment_id << endl;
+    out << "The payment's value is: " << p.amount << endl;
+    out << "The method of payment is (0 pentru card, 1 pentru numerar): " << p.metoda << endl;
+    return out;
+}
+istream& operator >> (istream& in, Payment& p)
+{
+    char aux[100];
+    int m;
+    cout << "The type of payment is (o pentru online, f pentru fizic): ";
+    in >> aux;
+    if (p.tip_plata != NULL)
+        delete[] p.tip_plata;
+    p.tip_plata = new char[strlen(aux) + 1];
+    strcpy(p.tip_plata, aux);
+    cout << endl;
+    cout << "The payment's id is: ";
+    in >> p.payment_id;
+    cout << endl;
+    cout << "The payment's value is: ";
+    in >> p.amount;
+    cout << endl;
+    cout << "The method of payment is (0 pentru card, 1 pentru numerar): ";
+    in >> m;
+    if (m == 1)
+        p.metoda = true;
+    else
+        p.metoda = false;
+    cout << endl;
+    return in;
+}
+
+
+int main()
+{
+    bool stop = false;
+    int i;
+    vector <Event> listaEvent;
+    vector <Ticket> listaTicket;
+    vector <Customer> listaCustomer;
+    vector <Payment> listaPayment;
+
+    while (stop != true)
+    {
+        cout << "Apasa 1 if you want to add a data" << endl;
+        cout << "Apasa 2 if you want to see the list of values" << endl;
+        cout << "Apasa 3 if you want to modify an existing value" << endl;
+        cout << "Apasa 4 if you want to delete an existing value" << endl;
+        cout << "Apasa 5 if you want to filter after a price" << endl;
+        cout << "Apasa 6 if you want to see the events in a day" << endl;
+        cout << "Apasa 7 if you want to filter by age" << endl;
+        cout << "Apasa 8 pentru stop" << endl;
+        cout << "Introdu o comanda: " << endl;
+        int comanda1, comanda2, comanda3;
+        cin >> comanda1;
+        switch (comanda1)
+        {
+        case 1:
+        {
+            cout << "Apasa 1 if you want to add a data in the clasa event" << endl;
+            cout << "Apasa 2 if you want to add a data in the clasa ticket" << endl;
+            cout << "Apasa 3 if you want to add a data in the clasa customer" << endl;
+            cout << "Apasa 4 if you want to add a data in the clasa payment" << endl;
+            cin >> comanda2;
+            switch (comanda2)
+            {
+            case 1:
+            {
+                Event a;
+                cin >> a;
+                listaEvent.push_back(a);
+                break;
+            }
+            case 2:
+            {
+                Ticket a;
+                cin >> a;
+                listaTicket.push_back(a);
+                break;
+            }
+            case 3:
+            {
+                Customer a;
+                cin >> a;
+                listaCustomer.push_back(a);
+                break;
+            }
+            case 4:
+            {
+                Payment a;
+                cin >> a;
+                listaPayment.push_back(a);
+                break;
+            }
+            default:
+            {
+                cout << "Incorect comand" << endl;
+                break;
+            }
+            }
+            break;
+        }
+        case 2:
+        {
+            cout << "Apasa 1 daca vrei sa vezi lista de valori pentru class event" << endl;
+            cout << "Apasa 2 daca vrei sa vezi lista de valori pentru class ticket" << endl;
+            cout << "Apasa 3 daca vrei sa vezi lista de valori pentru class customer" << endl;
+            cout << "Apasa 4 daca vrei sa vezi lista de valori pentru class payment" << endl;
+            cin >> comanda3;
+            switch (comanda3)
+            {
+            case 1:
+            {
+                for (int i = 0; i < listaEvent.size(); i++)
+                {
+                    cout << listaEvent[i];
+                    cout << endl;
+                }
+                break;
+            }
+            case 2:
+            {
+                for (int i = 0; i < listaTicket.size(); i++)
+                {
+                    cout << listaTicket[i];
+                    cout << endl;
+                }
+                break;
+            }
+            case 3:
+            {
+                for (int i = 0; i < listaCustomer.size(); i++)
+                {
+                    cout << listaCustomer[i];
+                    cout << endl;
+                }
+                break;
+            }
+            case 4:
+            {
+                for (int i = 0; i < listaPayment.size(); i++)
+                {
+                    cout << listaPayment[i];
+                    cout << endl;
+                }
+                break;
+            }
+            default:
+            {
+                cout << "Incorect comand" << endl;
+                break;
+            }
+            }
+            break;
+        }
+        case 3:
+        {
+            cout << "Apasa 1 if you want to modify a value in the class ticket" << endl;
+            cout << "Apasa 2 if you want to modify a value in the class customer" << endl;
+            cout << "Apasa 3 if you want to modify a value in the class payment" << endl;
+            cin >> comanda2;
+            switch (comanda2)
+            {
+            case 1:
+            {
+                int nr, ci = 0;
+                double p;
+                cout << "What is the seat of the ticket that you want to modify? ";
+                cin >> nr;
+                cout << endl;
+                for (int i = 0; i < listaTicket.size(); i++)
+                    if (listaTicket[i].getseat_nr() == nr)
+                    {
+                        ci = i;
+                        break;
+                    }
+                cout << "What is the new price? ";
+                cin >> p;
+                cout << endl;
+                listaTicket[ci].setprice(p);
+                break;
+            }
+            case 2:
+            {
+                int id, ci;
+                int age;
+                cout << "What is the id of the customer that you want to modify? ";
+                cin >> id;
+                cout << endl;
+                for (int i = 0; i < listaCustomer.size(); i++)
+                    if (listaCustomer[i].getcustomer_id() == id)
+                    {
+                        ci = i;
+                        break;
+                    }
+                cout << "What is the new age? ";
+                cin >> age;
+                cout << endl;
+                listaCustomer[ci].setage(age);
+                break;
+            }
+            case 3:
+            {
+                int id, ci;
+                float p;
+                cout << "What is the id of the payment that you want to modify? ";
+                cin >> id;
+                cout << endl;
+                for (int i = 0; i < listaPayment.size(); i++)
+                    if (listaPayment[i].getpayment_id() == id)
+                    {
+                        ci = i;
+                        break;
+                    }
+                cout << "What is the new amount? ";
+                cin >> p;
+                cout << endl;
+                listaPayment[ci].setamount(p);
+                break;
+            }
+            default:
+            {
+                cout << "Incorect comand" << endl;
+                break;
+            }
+            }
+            break;
+        }
+        case 4:
+        {
+            cout << "Apasa 1 if you want to delete an existing value from the class event" << endl;
+            cout << "Apasa 2 if you want to delete an existing value from the class ticket" << endl;
+            cout << "Apasa 3 if you want to delete an existing value from the class customer" << endl;
+            cout << "Apasa 4 if you want to delete an existing value from the class payment" << endl;
+            cin >> comanda2;
+            switch (comanda2)
+            {
+            case 1:
+            {
+                int id, ci;
+                cout << "What is the id of the event that you want to delete? ";
+                cin >> id;
+                cout << endl;
+                for (int i = 0; i < listaEvent.size(); i++)
+                    if (listaEvent[i].getevent_id() == id)
+                    {
+                        ci = i;
+                        break;
+                    }
+                listaEvent.erase(listaEvent.begin() + ci);
+                break;
+            }
+            case 2:
+            {
+                int nr, ci;
+                bool ok = 0;
+                cout << "What is the seat of the ticket that you want to delete? ";
+                cin >> nr;
+                cout << endl;
+                for (int i = 0; i < listaTicket.size() && ok == 0; i++)
+                {
+                    cout << listaTicket[i].getseat_nr();
+                    if (listaTicket[i].getseat_nr() == nr)
+                    {
+                        ci = i;
+                        ok = 1;
+                    }
+                }
+                cout << ci;
+                listaTicket.erase(listaTicket.begin() + ci);
+                break;
+            }
+            case 3:
+            {
+                int id, ci;
+                cout << "What is the id of the customer that you want to delete? ";
+                cin >> id;
+                cout << endl;
+                for (int i = 0; i < listaCustomer.size(); i++)
+                    if (listaCustomer[i].getcustomer_id() == id)
+                    {
+                        ci = i;
+                        break;
+                    }
+                listaCustomer.erase(listaCustomer.begin() + ci);
+                break;
+            }
+            case 4:
+            {
+                int id, ci;
+                cout << "What is the id of the payment that you want to delete? ";
+                cin >> id;
+                cout << endl;
+                for (int i = 0; i < listaPayment.size(); i++)
+                    if (listaPayment[i].getpayment_id() == id)
+                    {
+                        ci = i;
+                        break;
+                    }
+                listaPayment.erase(listaPayment.begin() + ci);
+                break;
+            }
+            default:
+            {
+                cout << "Incorect comand" << endl;
+                break;
+            }
+            }
+            break;
+        }
+        case 5:
+        {
+            cout << "Apasa 1 if you want to filter by the price of a ticket" << endl;
+            cout << "Apasa 2 if you want to filter by the price of a payment" << endl;
+            int comanda4;
+            cin >> comanda4;
+            switch (comanda4)
+            {
+            case 1:
+            {
+                cout << "What is the price of the ticket? ";
+                double pret;
+                cin >> pret;
+                for (i = 0; i < listaTicket.size(); i++)
+                    if (listaTicket[i].getprice() == pret)
+                    {
+                        cout << listaTicket[i];
+                        cout << endl;
+                    }
+                break;
+            }
+            case 2:
+            {
+                cout << "What is the price of the payment? ";
+                float pret;
+                cin >> pret;
+                for (i = 0; i < listaPayment.size(); i++)
+                    if (listaPayment[i].getamount() == pret)
+                    {
+                        cout << listaPayment[i];
+                        cout << endl;
+                    }
+                break;
+            }
+            default:
+            {
+                cout << "Incorect comand" << endl;
+                break;
+            }
+            }
+            break;
+        }
+        case 6:
+        {
+            cout << "What is the date?";
+            string ziua;
+            cin >> ziua;
+            for (i = 0; i < listaEvent.size(); i++)
+                if (listaEvent[i].getdata() == ziua)
+                {
+                    cout << listaEvent[i];
+                    cout << endl;
+                }
+            break;
+        }
+        case 7:
+        {
+            cout << "What is the age?";
+            int varsta;
+            cin >> varsta;
+            for (i = 0; i < listaCustomer.size(); i++)
+                if (listaCustomer[i].getage() == varsta)
+                {
+                    cout << listaCustomer[i];
+                    cout << endl;
+                }
+            break;
+        }
+        case 8:
+        {
+            stop = true;
+            break;
+        }
+        default:
+        {
+            cout << "Incorect comand" << endl;
+            break;
+        }
+        }
+    }
 }
