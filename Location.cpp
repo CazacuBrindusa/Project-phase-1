@@ -39,8 +39,11 @@ void Location::setzones(string zones)
 }
 void Location::setseats(int* seat)
 {
-    if (seats != nullptr)
-        this->seats[this->nr_rows] = seats[this->nr_rows];
+    if (this->seats != nullptr)
+        delete[] this->seats;
+    this->seats = new int[this->nr_rows];
+    for (int i = 0; i < this->nr_rows; i++)
+        this->seats[i] = seat[i];
 }
 
 
@@ -179,15 +182,16 @@ bool Location:: operator !()
         return true;
     return false;
 }
-explicit Location::operator string()
+Location::operator string()
 {
     return this->venue;
 }
 
 
 Location::Location() {}
-Location::Location(string venue, int max_nr_seats, int nr_rows, string zones, int* seats)
+Location::Location(int id, string venue, int max_nr_seats, int nr_rows, string zones, int* seats)
 {
+    setlocation_id(id);
     setvenue(venue);
     setmax_nr_seats(max_nr_seats);
     setnr_rows(nr_rows);
@@ -196,6 +200,7 @@ Location::Location(string venue, int max_nr_seats, int nr_rows, string zones, in
 }
 Location::Location(const Location& l)
 {
+    setlocation_id(l.location_id);
     setvenue(l.venue);
     setmax_nr_seats(l.max_nr_seats);
     setnr_rows(l.nr_rows);
@@ -229,8 +234,8 @@ void Location::modify(vector <Location>& listaLocation)
             locuri = locuri + aux[i];
             cout << endl;
         }
-        listaLocation[ci].setseats(aux);
         listaLocation[ci].setnr_rows(nr);
+        listaLocation[ci].setseats(aux);
         max = listaLocation[ci].getmax_nr_seats() + locuri;
         listaLocation[ci].setmax_nr_seats(max);
     }
@@ -244,8 +249,8 @@ void Location::modify(vector <Location>& listaLocation)
             max += aux[i];
         }
 
-        listaLocation[ci].setseats(aux);
         listaLocation[ci].setnr_rows(nr);
+        listaLocation[ci].setseats(aux);
         listaLocation[ci].setmax_nr_seats(max);
     }
 }
@@ -288,8 +293,10 @@ Location& Location::operator =(const Location& l)
     }
     return *this;
 }
+
 ostream& operator <<(ostream& out, const Location& p)
 {
+    out << "The location of the id is: " << p.location_id << endl;
     out << "The location of the venue is: " << p.venue << endl;
     out << "The maximum number of seats is: " << p.max_nr_seats << endl;
     out << "The number of rows is: " << p.nr_rows << endl;
@@ -301,6 +308,9 @@ ostream& operator <<(ostream& out, const Location& p)
 }
 istream& operator >>(istream& in, Location& p)
 {
+    cout << "The location of the id is: ";
+    in >> p.location_id;
+    cout << endl;
     cout << "The location of the venue is: ";
     in >> p.venue;
     cout << endl;
@@ -320,5 +330,6 @@ istream& operator >>(istream& in, Location& p)
         in >> p.seats[i];
         cout << endl;
     }
+    cout << p.location_id;
     return in;
 }
