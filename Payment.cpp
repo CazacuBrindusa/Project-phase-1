@@ -27,12 +27,12 @@ void Payment::settip_plata(char* tip_plata)
 }
 void Payment::setpayment_id(int payment_id) 
 {
-    if (payment_id != NULL && payment_id != 0)
+    if (payment_id != NULL)
         this->payment_id = payment_id;
 }
 void Payment::setamount(float amount) 
 {
-    if (amount != NULL && amount != 0)
+    if (amount != NULL)
         this->amount = amount;
 }
 void Payment::setmetoda(bool metoda) 
@@ -177,7 +177,7 @@ bool Payment::operator ! ()
 {
     return !(this->metoda);
 }
-explicit Payment::operator float()
+Payment::operator float()
 {
     return this->amount;
 }
