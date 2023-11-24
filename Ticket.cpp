@@ -149,11 +149,11 @@ Ticket Ticket:: operator !()
     this->status = 'a';
     return *this;
 }
-explicit Ticket::operator char()
+Ticket::operator char()
 {
     return this->status;
 }
-explicit Ticket::operator double()
+Ticket::operator double()
 {
     return this->price;
 }
