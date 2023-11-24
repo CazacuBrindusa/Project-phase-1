@@ -159,7 +159,7 @@ Customer Customer:: operator !()
     this->age = 100 - this->age;
     return *this;
 }
-explicit Customer::operator int()
+Customer::operator int()
 {
     return this->age;
 }
