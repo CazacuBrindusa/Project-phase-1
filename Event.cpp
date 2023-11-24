@@ -45,7 +45,7 @@ Event::Event() : Location()
     this->timp = '0';
     this->category = '0';
 }
-Event::Event(int event_id, string name, string data, string timp, string category) : Location(venue, max_nr_seats, nr_rows, zones, seats)
+Event::Event(int event_id, string name, string data, string timp, string category) : Location(location_id, venue, max_nr_seats, nr_rows, zones, seats)
 {
     this->event_id = event_id;
     this->name = name;
@@ -175,7 +175,7 @@ bool Event:: operator ==(const Event& e)
         aux.timp == e.timp &&
         aux.category == e.category;
 }
-explicit Event::operator int()
+Event::operator int()
 {
     return this->event_id;
 }
