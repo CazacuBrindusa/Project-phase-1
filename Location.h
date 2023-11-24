@@ -1,3 +1,5 @@
+#pragma once
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
@@ -7,7 +9,7 @@ using namespace std;
 class Location
 {
 protected:
-    int location_id;
+    int location_id = 0;
     string venue = "unknown";
     int max_nr_seats = 100000;
     int nr_rows = 100;
@@ -31,7 +33,7 @@ public:
     void setseats(int* seat);
 
     Location();
-    Location(string, int, int, string, int* seats);
+    Location(int, string, int, int, string, int* seats);
     Location(const Location& l);
 
     void modify(vector <Location>& listaLocation);
