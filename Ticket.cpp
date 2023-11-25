@@ -19,16 +19,22 @@ void Ticket::setseat_nr(int seat_nr)
 {
     if (seat_nr != NULL)
         this->seat_nr = seat_nr;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Ticket::setprice(double price)
 {
     if (price != NULL)
         this->price = price;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Ticket::setstatus(char status)
 {
     if (status != '\n')
         this->status = status;
+    else
+        throw runtime_error("Invalid imput");
 }
 
 bool Ticket:: operator <(const Ticket& t)
