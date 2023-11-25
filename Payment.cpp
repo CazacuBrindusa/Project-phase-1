@@ -23,22 +23,29 @@ void Payment::settip_plata(char* tip_plata)
         this->tip_plata = new char[strlen(tip_plata) + 1];
         strcpy(this->tip_plata, tip_plata);
     }
-    
+    else
+        throw runtime_error("Invalid imput");
 }
 void Payment::setpayment_id(int payment_id) 
 {
     if (payment_id != NULL)
         this->payment_id = payment_id;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Payment::setamount(float amount) 
 {
     if (amount != NULL)
         this->amount = amount;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Payment::setmetoda(bool metoda) 
 {
     if (metoda != NULL && (metoda == 0 || metoda == 1))
         this->metoda = metoda;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Payment::setlista(vector <Ticket> lista) 
 {
