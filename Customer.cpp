@@ -35,7 +35,7 @@ void Customer::setemail(string email)
 }
 void Customer::setage(int age)
 {
-    if (age != NULL && age <= 100)
+    if (age != NULL && age>=0 && age <= 100)
         this->age = age;
 }
 
