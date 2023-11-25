@@ -330,6 +330,5 @@ istream& operator >>(istream& in, Location& p)
         in >> p.seats[i];
         cout << endl;
     }
-    cout << p.location_id;
     return in;
 }
