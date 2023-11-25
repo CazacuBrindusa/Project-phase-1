@@ -16,26 +16,36 @@ void Location::setlocation_id(int location_id)
 {
     if (location_id != 0)
         this->location_id = location_id;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Location::setvenue(string venue)
 {
     if (venue != "\n")
         this->venue = venue;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Location::setmax_nr_seats(int max_nr_seats)
 {
     if (max_nr_seats >= 0 && max_nr_seats <= 100000)
         this->max_nr_seats = max_nr_seats;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Location::setnr_rows(int nr_rows)
 {
     if (nr_rows >= 0 && nr_rows <= 100)
         this->nr_rows = nr_rows;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Location::setzones(string zones)
 {
     if (zones != "\n")
         this->zones = zones;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Location::setseats(int* seat)
 {
