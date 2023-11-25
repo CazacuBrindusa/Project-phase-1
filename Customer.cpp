@@ -17,26 +17,36 @@ void Customer::setcustomer_id(int customer_id)
 {
     if (customer_id != NULL)
         this->customer_id = customer_id;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Customer::setname(string name)
 {
     if (name != "\n")
         this->name = name;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Customer::setphone(string phone)
 {
     if (phone != "\n")
         this->phone = phone;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Customer::setemail(string email)
 {
     if (email != "\n")
         this->email = email;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Customer::setage(int age)
 {
     if (age != NULL && age>=0 && age <= 100)
         this->age = age;
+    else
+        throw runtime_error("Invalid imput");
 }
 
 bool Customer:: operator ==(const Customer& c)
