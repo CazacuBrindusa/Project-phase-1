@@ -34,10 +34,8 @@ int main()
         cout << "Type 2 if you want to see the list of values" << endl;
         cout << "Type 3 if you want to modify an existing value" << endl;
         cout << "Type 4 if you want to delete an existing value" << endl;
-        cout << "Type 5 if you want to filter after a price" << endl;
-        cout << "Type 6 if you want to see the events in a day" << endl;
-        cout << "Type 7 if you want to filter by age" << endl;
-        cout << "Type 8 pentru stop" << endl;
+        cout << "Type 5 if you want to filter" << endl;
+        cout << "Type 6 pentru stop" << endl;
         cout << "Choose a comand: " << endl;
         int comanda1, comanda2, comanda3;
         cin >> comanda1;
@@ -58,6 +56,7 @@ int main()
                 Event a;
                 cin >> a;
                 listaEvent.push_back(a);
+                listaLocation.push_back(a);
                 break;
             }
             case 2:
@@ -289,16 +288,6 @@ int main()
             break;
         }
         case 6:
-        {
-            listaEvent[0].filtru(listaEvent);
-            break;
-        }
-        case 7:
-        {
-            listaCustomer[0].filtru(listaCustomer);
-            break;
-        }
-        case 8:
         {
             stop = true;
             break;
