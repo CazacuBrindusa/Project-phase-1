@@ -11,30 +11,40 @@ string Event::getdata() { return this->data; }
 string Event::gettimp() { return this->timp; }
 string Event::getcategory() { return this->category; }
 
-void Event::setevet_id(int event_id)
+void Event::setevent_id(int event_id)
 {
     if (event_id != NULL)
         this->event_id = event_id;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Event::setname(string name)
 {
     if (name != "\n")
         this->name = name;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Event::setdata(string data)
 {
     if (data != "\n")
         this->data = data;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Event::settimp(string timp)
 {
     if (timp != "\n")
         this->timp = timp;
+    else
+        throw runtime_error("Invalid imput");
 }
 void Event::setcategory(string category)
 {
     if (category != "\n")
         this->category = category;
+    else
+        throw runtime_error("Invalid imput");
 }
 
 Event::Event() : Location()
